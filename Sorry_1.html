@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>A Letter For You 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #ff7eb3;
+    --light-pink: #ffd6e7;
+    --deep-rose: #c9446a;
+    --cream: #fff8f0;
+    --peach: #ffb5a7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffe0ec 0%, #ffd6f5 40%, #d6eaff 100%);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* ── FLOATING HEARTS BACKGROUND ── */
+  .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .heart-float {
+    position: absolute;
+    bottom: -60px;
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(-10deg) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-110vh) rotate(15deg) scale(1.1); opacity: 0; }
+  }
+
+  /* ── INTRO ANIMATION SCREEN ── */
+  #intro {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #ffe0ec, #ffd6f5, #d6eaff);
+    gap: 20px;
+  }
+
+  /* Intro photo placeholder */
+  .intro-photo {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 4px solid #ff7eb3;
+    box-shadow: 0 6px 24px rgba(255,126,179,0.45);
+    overflow: hidden;
+    animation: bounceCat 0.9s ease infinite alternate;
+    background: #ffe8f3;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .intro-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-placeholder-text {
+    font-size: 0.7rem;
+    color: #c9446a;
+    text-align: center;
+    font-weight: 700;
+    padding: 6px;
+    line-height: 1.3;
+  }
+
+  @keyframes bounceCat { from { transform: translateY(0) scale(1); } to { transform: translateY(-16px) scale(1.04); } }
+
+  .intro-text {
+    font-family: 'Caveat', cursive;
+    font-size: 2.1rem;
+    color: var(--deep-rose);
+    text-align: center;
+    padding: 0 20px;
+    animation: fadeIn 1.2s ease forwards;
+    text-shadow: 0 2px 8px rgba(201,68,106,0.2);
+  }
+  .intro-sub {
+    font-size: 1rem;
+    color: #b36a8a;
+    font-weight: 600;
+    animation: pulse 1.5s ease infinite;
+    margin-top: -6px;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.6;transform:scale(0.95);} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+  .intro-hearts {
+    display: flex; gap: 12px; font-size: 2rem;
+    animation: floatHeartsRow 2s ease infinite alternate;
+  }
+  @keyframes floatHeartsRow { from{transform:translateY(0);} to{transform:translateY(-10px);} }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    position: relative; z-index: 10;
+    width: 100%; max-width: 420px;
+    padding: 24px 16px 40px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 26px;
+  }
+
+  /* ── PHOTO STRIP (replaces emoji cats at top) ── */
+  .photo-strip {
+    display: flex; gap: 14px; align-items: center; justify-content: center;
+  }
+  .photo-frame {
+    width: 78px; height: 78px;
+    border-radius: 50%;
+    border: 3px solid #ff7eb3;
+    box-shadow: 0 4px 16px rgba(255,126,179,0.35);
+    overflow: hidden;
+    background: #ffe8f3;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    animation: wobbleL 2.5s ease infinite alternate;
+  }
+  .photo-frame:nth-child(3) { animation: wobbleR 2.2s ease infinite alternate; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-frame .ph-text {
+    font-size: 0.6rem; color: #c9446a;
+    text-align: center; font-weight: 700;
+    padding: 4px; line-height: 1.3;
+  }
+  @keyframes wobbleL { from{transform:rotate(-6deg) translateY(0);} to{transform:rotate(6deg) translateY(-8px);} }
+  @keyframes wobbleR { from{transform:rotate(6deg) translateY(-4px);} to{transform:rotate(-6deg) translateY(6px);} }
+
+  .heart-divider { font-size: 1.6rem; color: var(--deep-rose); animation: pulse 1.5s ease infinite; }
+
+  .title-text {
+    font-family: 'Caveat', cursive;
+    font-size: 2.4rem;
+    color: var(--deep-rose);
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 0 2px 12px rgba(201,68,106,0.2);
+    animation: fadeIn 0.8s ease forwards;
+  }
+  .title-sub {
+    font-size: 0.9rem;
+    color: #b36a8a;
+    font-weight: 600;
+    text-align: center;
+    margin-top: -12px;
+  }
+
+  /* ── ENVELOPE ── */
+  #envelope-wrap {
+    position: relative;
+    width: 280px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #envelope-wrap:active { transform: scale(0.96); }
+
+  .envelope {
+    width: 280px; height: 190px;
+    position: relative;
+    filter: drop-shadow(0 10px 30px rgba(255,126,179,0.45));
+  }
+  .env-body {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, #fff0f8 60%, #ffd6e7 100%);
+    border-radius: 8px 8px 14px 14px;
+    border: 2.5px solid #f5a8c8;
+  }
+  .env-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 95px;
+    background: linear-gradient(160deg, #ffe0ef 0%, #ffb5cf 100%);
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    border-top: 2px solid #f5a8c8;
+  }
+  .env-left {
+    position: absolute; top: 0; left: 0; width: 50%; height: 100%;
+    background: linear-gradient(to right, #ffd6e7, #ffe8f3);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+  .env-right {
+    position: absolute; top: 0; right: 0; width: 50%; height: 100%;
+    background: linear-gradient(to left, #ffd6e7, #ffe8f3);
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  }
+  .env-flap {
+    position: absolute; top: 0; left: 0; right: 0; height: 105px;
+    background: linear-gradient(160deg, #ffb5cf 0%, #ff7eb3 100%);
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    transform-origin: top center;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
+    border-bottom: 2px solid #e8709f;
+  }
+  .env-flap.open { transform: rotateX(180deg); }
+  .wax-seal {
+    position: absolute;
+    top: 38px; left: 50%; transform: translateX(-50%);
+    width: 48px; height: 48px;
+    background: radial-gradient(circle at 35% 35%, #ff9ec4, #c9446a);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 3px 12px rgba(201,68,106,0.4);
+    z-index: 6;
+    transition: opacity 0.4s, transform 0.4s;
+    border: 2px solid #e8709f;
+  }
+  .wax-seal.hidden { opacity: 0; transform: translateX(-50%) scale(0); }
+  .tap-hint {
+    position: center;
+    bottom: -32px; left: 50%; transform: translateX(-50%);
+    font-size: 0.82rem; color: #b36a8a; font-weight: 700;
+    white-space: nowrap;
+    animation: pulse 1.5s ease infinite;
+  }
+  .tap-hint.hidden { opacity: 0; }
+
+  /* ── PHOTO BUBBLES STRIP (replaces cat meme strip) ── */
+  .photo-bubbles {
+    display: flex; gap: 12px; align-items: flex-start; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .photo-bubble {
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(8px);
+    border-radius: 18px;
+    padding: 10px 12px 12px;
+    border: 2px solid #f5a8c8;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(255,126,179,0.2);
+    min-width: 90px; max-width: 100px;
+  }
+  .bubble-photo {
+    width: 64px; height: 64px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffe8f3;
+    border: 2px solid #ffb5cf;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .bubble-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .bubble-photo .ph-text {
+    font-size: 0.58rem; color: #c9446a;
+    text-align: center; font-weight: 700;
+    padding: 4px; line-height: 1.3;
+  }
+  .bubble-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 0.82rem;
+    color: #b36a8a;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  /* ── BOTTOM MESSAGE ── */
+  .bottom-msg {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    color: var(--deep-rose);
+    text-align: center;
+    padding: 0 10px;
+    line-height: 1.4;
+    text-shadow: 0 2px 8px rgba(201,68,106,0.2);
+  }
+
+  /* ── SPARKLES ── */
+  .sparkle {
+    position: fixed; pointer-events: none; z-index: 200;
+    font-size: 1.2rem;
+    animation: sparkleAnim 0.8s ease forwards;
+  }
+  @keyframes sparkleAnim {
+    0% { opacity: 1; transform: scale(0) translateY(0); }
+    50% { opacity: 1; transform: scale(1.3) translateY(-20px); }
+    100% { opacity: 0; transform: scale(0.8) translateY(-40px); }
+  }
+
+  /* ── OVERLAY ── */
+  #overlay {
+    position: fixed; inset: 0; background: rgba(80,20,40,0.25);
+    z-index: 9; opacity: 0; pointer-events: none;
+    transition: opacity 0.5s;
+    backdrop-filter: blur(2px);
+  }
+  #overlay.active { opacity: 1; pointer-events: auto; }
+
+  /* ── ENVELOPE CONTAINER ── */
+  #envelope-container {
+    position: relative; width: 280px; height: 230px;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+
+  /* ── LETTER MODAL ── */
+  #letter-outer {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.5s;
+  }
+  #letter-outer.open { pointer-events: auto; opacity: 1; }
+
+  #letter-card {
+    background: #fffdf8;
+    border-radius: 18px;
+    padding: 28px 22px 24px;
+    box-shadow: 0 12px 50px rgba(201,68,106,0.35);
+    border: 2.5px solid #f5dde8;
+    width: min(88vw, 380px);
+    max-height: 82vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.85) translateY(40px);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    scrollbar-width: thin;
+    scrollbar-color: #ffb5cf transparent;
+    background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(255,182,216,0.35) 32px);
+  }
+  #letter-card::-webkit-scrollbar { width: 5px; }
+  #letter-card::-webkit-scrollbar-thumb { background: #ffb5cf; border-radius: 4px; }
+  #letter-outer.open #letter-card { transform: scale(1) translateY(0); }
+
+  .letter-top-deco {
+    display: flex; justify-content: center; gap: 10px; font-size: 1.5rem;
+    margin-bottom: 14px;
+    animation: floatHeartsRow 2.5s ease infinite alternate;
+  }
+
+  /* Photo inside letter */
+  .letter-photo-row {
+    display: flex; justify-content: center; margin-bottom: 16px;
+  }
+  .letter-photo {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ffb5cf;
+    box-shadow: 0 4px 14px rgba(255,126,179,0.3);
+    background: #ffe8f3;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .letter-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .letter-photo .ph-text {
+    font-size: 0.62rem; color: #c9446a;
+    text-align: center; font-weight: 700;
+    padding: 5px; line-height: 1.3;
+  }
+
+  #close-letter {
+    display: block;
+    margin: 18px auto 0;
+    background: linear-gradient(135deg, #ff7eb3, #c9446a);
+    color: #fff; border: none; border-radius: 30px;
+    padding: 10px 28px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(201,68,106,0.35);
+    transition: transform 0.15s;
+  }
+  #close-letter:active { transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- ══ INTRO SCREEN ══ -->
+<div id="intro">
+  <div class="intro-hearts">💕 💗 💕</div>
+
+  <!-- 🖼️ INTRO PHOTO — replace src="" with your image path or URL -->
+  <div class="intro-photo">
+    <img src="photos/Flirty.jpg" alt="hihi">
+  </div>
+
+  <div class="intro-text">Psst... I made<br>something for you 🌸</div>
+  <div class="intro-sub">tap anywhere to continue ✨</div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- ══ LETTER MODAL ══ -->
+<div id="letter-outer">
+  <div id="letter-card">
+    <div class="letter-top-deco">🌸 💗 🌸 💗 🌸</div>
+
+    <!-- 🖼️ LETTER PHOTO — replace src="" with your image path or URL -->
+    <div class="letter-photo-row">
+      <div class="letter-photo">
+        <img src="Photos/Smile.jpg" alt="hihi">
+      </div>
+    </div>
+
+    <div style="font-family:'Caveat',cursive;font-size:1.5rem;color:var(--deep-rose);text-align:center;margin-bottom:16px;font-weight:700;">
+      A letter from your baby 💌
+    </div>
+    <div style="font-family:'Caveat',cursive;font-size:1.08rem;color:#5a3a4a;line-height:1.9;">
+      <p>Hey darling, my beautiful loving baby,</p>
+      <p>I want to apologize for what happened and for the things I said yesterday. I know some of my words hurt you, and I am truly sorry for that.</p>
+      <p>I was upset and hurt at the time, and I let those emotions control the way I spoke. What I said came from a place of pain, but that doesn't make it right. Please know that I didn't mean those hurtful words.</p>
+      <p>I also want to thank you for trying to make things right. You acknowledged your mistake, explained yourself, and apologized. I know you never intended to hurt me. Sometimes things come out differently from how you mean them, and I understand that.</p>
+      <p>You know how sensitive I can be, especially when it comes to my insecurities. Lately, I've been carrying a lot of pressure and expectations in life, and sometimes those feelings make me react more strongly than I should. What hurt me wasn't necessarily the exact words you said, but the way I interpreted them in that moment. It made me feel compared to something else, and it made me question whether I was enough. I know you've already explained what you meant, and I appreciate that.</p>
+      <p>At that time, I think I just needed a little space to process my emotions. When you kept asking for pictures and videos, I felt overwhelmed and pressured. It made me feel like I needed to be okay immediately, even though I was still trying to calm down and understand my feelings. I know that wasn't your intention, but that's how I felt in that moment.</p>
+      <p>I'm sorry again for the things I said. You didn't deserve to be hurt because I was hurting. I want to do better and handle my emotions in a healthier way. Thank you for being patient with me and for trying to make me feel better yesterday.</p>
+      <p>I love you so much, baby. No matter what happens, please know that I never want my anger or pain to make you doubt how much I love and care about you.</p>
+    </div>
+    <div style="font-family:'Caveat',cursive;font-size:1.3rem;color:var(--deep-rose);text-align:right;margin-top:16px;font-weight:700;">
+      Love, Poging si Khylle Juarez💕
+    </div>
+    <div style="display:flex;justify-content:center;gap:16px;font-size:1.6rem;margin-top:18px;">
+      🌸 💗 🌸 💗 🌸
+    </div>
+    <button id="close-letter">Close 💕</button>
+  </div>
+</div>
+
+<!-- ══ MAIN CONTENT ══ -->
+<div id="main" style="display:none;">
+
+  <!-- Photo strip at top -->
+  <div class="photo-strip">
+    <!-- 🖼️ LEFT PHOTO — replace src="" -->
+    <div class="photo-frame">
+      <img src="Photos/Sad.jpg" alt="sadyarn">
+    </div>
+
+    <div class="heart-divider">💗</div>
+
+    <!-- 🖼️ RIGHT PHOTO — replace src="" -->
+    <div class="photo-frame">
+      <img src="Photos/Sad1.jpg" alt="sadsya">
+    </div>
+  </div>
+
+  <div class="title-text">A little something<br>I made for you 💌</div>
+  <div class="title-sub">( tap the envelope to open it )</div>
+
+  <!-- Envelope -->
+  <div id="envelope-container">
+    <div id="envelope-wrap">
+      <div class="envelope">
+        <div class="env-body"></div>
+        <div class="env-left"></div>
+        <div class="env-right"></div>
+        <div class="env-bottom"></div>
+        <div class="env-flap" id="envFlap"></div>
+        <div class="wax-seal" id="waxSeal">💌</div>
+      </div>
+      <div class="tap-hint" id="tapHint">👆 Tap me!</div>
+    </div>
+  </div>
+
+  <!-- Photo bubbles with captions -->
+  <div class="photo-bubbles">
+    <!-- 🖼️ BUBBLE PHOTO 1 — replace src="" -->
+    <div class="photo-bubble">
+      <div class="bubble-photo">
+        <img src="Photos/Sus.jpg" alt="sus">
+      </div>
+      <div class="bubble-caption">me when i<br>hurt you</div>
+    </div>
+
+    <!-- 🖼️ BUBBLE PHOTO 2 — replace src="" -->
+    <div class="photo-bubble">
+      <div class="bubble-photo">
+        <img src="Photos/Cry.jpg" alt="crynasya">
+      </div>
+      <div class="bubble-caption">realizing<br>what i said</div>
+    </div>
+
+    <!-- 🖼️ BUBBLE PHOTO 3 — replace src="" -->
+    <div class="photo-bubble">
+      <div class="bubble-photo">
+        <img src="Photos/Sad2.jpg" alt="sadnasyaoh">
+      </div>
+      <div class="bubble-caption">asking for<br>forgiveness</div>
+    </div>
+  </div>
+
+  <div class="bottom-msg">
+    You mean everything<br>to me 🌸💕<br>
+  </div>
+
+  <div style="height:30px;"></div>
+</div>
+
+<script>
+  // ── FLOATING HEARTS ──
+  const heartsContainer = document.getElementById('heartsBg');
+  const heartEmojis = ['💗','💕','💖','💓','🌸','✨','💝','💞'];
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
+    const dur = 5 + Math.random() * 8;
+    h.style.animationDuration = dur + 's';
+    h.style.animationDelay = Math.random() * 4 + 's';
+    heartsContainer.appendChild(h);
+    setTimeout(() => h.remove(), (dur + 4) * 1000);
+  }
+  for (let i = 0; i < 14; i++) setTimeout(spawnHeart, i * 400);
+  setInterval(spawnHeart, 900);
+
+  // ── INTRO DISMISS ──
+  const intro = document.getElementById('intro');
+  const main = document.getElementById('main');
+  intro.addEventListener('click', () => {
+    intro.style.transition = 'opacity 0.8s, transform 0.8s';
+    intro.style.opacity = '0';
+    intro.style.transform = 'scale(1.05)';
+    setTimeout(() => {
+      intro.style.display = 'none';
+      main.style.display = 'flex';
+      main.style.opacity = '0';
+      main.style.transition = 'opacity 0.6s';
+      setTimeout(() => { main.style.opacity = '1'; }, 50);
+    }, 800);
+  });
+
+  // ── ENVELOPE ──
+  const envWrap = document.getElementById('envelope-wrap');
+  const envFlap = document.getElementById('envFlap');
+  const waxSeal = document.getElementById('waxSeal');
+  const tapHint = document.getElementById('tapHint');
+  const overlay = document.getElementById('overlay');
+  const letterOuter = document.getElementById('letter-outer');
+  const closeBtn = document.getElementById('close-letter');
+  let opened = false;
+
+  envWrap.addEventListener('click', (e) => {
+    if (opened) return;
+    opened = true;
+    for (let i = 0; i < 8; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.textContent = ['✨','💗','🌸','💕','⭐'][Math.floor(Math.random() * 5)];
+      s.style.left = (e.clientX + (Math.random() - 0.5) * 80) + 'px';
+      s.style.top = (e.clientY + (Math.random() - 0.5) * 80) + 'px';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    }
+    waxSeal.classList.add('hidden');
+    tapHint.classList.add('hidden');
+    setTimeout(() => envFlap.classList.add('open'), 200);
+    setTimeout(() => {
+      overlay.classList.add('active');
+      letterOuter.classList.add('open');
+    }, 750);
+  });
+
+  function closeLetter() {
+    letterOuter.classList.remove('open');
+    overlay.classList.remove('active');
+    setTimeout(() => {
+      envFlap.classList.remove('open');
+      waxSeal.classList.remove('hidden');
+      tapHint.classList.remove('hidden');
+      opened = false;
+    }, 500);
+  }
+
+  closeBtn.addEventListener('click', closeLetter);
+  overlay.addEventListener('click', closeLetter);
+</script>
+</body>
+</html>
